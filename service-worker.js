@@ -1,4 +1,4 @@
-const CACHE_NAME = 'catatan-keuangan-v4';
+const CACHE_NAME = 'catatan-keuangan-v5';
 const ASSET_LIST = [
   './',
   './index.html',
@@ -25,18 +25,17 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Network-first: selalu coba ambil versi terbaru dari server dulu.
+// Cache cuma dipakai sebagai cadangan saat offline, bukan sumber utama.
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request)
-        .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          return response;
-        })
-        .catch(() => cached);
-    })
+    fetch(event.request)
+      .then((response) => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
