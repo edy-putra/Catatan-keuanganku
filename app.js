@@ -398,5 +398,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js').catch(() => {});
+
+    // Kalau ada versi baru yang aktif, muat ulang otomatis sekali
+    // supaya update langsung kepakai tanpa perlu hapus data manual.
+    let sudahReload = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (sudahReload) return;
+      sudahReload = true;
+      window.location.reload();
+    });
   }
 });
