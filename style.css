@@ -117,11 +117,75 @@ body {
   margin-top: 6px;
   letter-spacing: -0.01em;
 }
-.hero-sub {
+.hero-sub-row {
   margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hero-sub {
   font-size: 12.5px;
   opacity: 0.8;
 }
+
+.status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.status-badge.aman { background: rgba(255,255,255,0.16); color: #F4FBF9; }
+.status-badge.waspada { background: var(--gold); color: #2B2412; }
+.status-badge.boros { background: var(--danger); color: #fff; }
+
+/* ---------- Modal nasehat ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 20, 18, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 26px 22px 22px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.25s ease;
+}
+
+.modal-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.modal-box h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  margin: 0 0 10px;
+}
+
+.modal-box p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0 0 4px;
+}
+
+.modal-box .btn-utama { margin-top: 18px; }
 
 /* ---------- Receipt tear divider ---------- */
 
@@ -269,14 +333,22 @@ body {
 .riwayat-nominal.pengeluaran { color: var(--danger); }
 .riwayat-tanggal { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
 
-.riwayat-hapus {
+.riwayat-aksi {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.riwayat-edit, .riwayat-hapus {
   background: none;
   border: none;
   color: var(--ink-soft);
   font-size: 14px;
   cursor: pointer;
-  padding: 4px 6px;
+  padding: 6px;
 }
+.riwayat-edit:hover { color: var(--primary); }
 .riwayat-hapus:hover { color: var(--danger); }
 
 .riwayat-tanggal-group {
