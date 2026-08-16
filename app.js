@@ -244,19 +244,33 @@ function renderDashboard() {
     ? 'Belum ada transaksi tercatat'
     : (saldo >= 0 ? 'Kondisi keuangan positif bulan ini' : 'Pengeluaran lebih besar dari pemasukan');
 
-  // badge status pengeluaran hari ini (dibandingkan rata-rata 30 hari terakhir)
+  // Badge status keuangan keseluruhan — saldo minus / defisit bulanan HARUS
+  // lebih diprioritaskan daripada rasio pengeluaran hari ini, supaya nggak
+  // pernah kebaca "Aman" saat saldo sebenarnya minus.
   const badgeEl = document.getElementById('statusBadge');
-  const rataRataHarian = hitungRataRataPengeluaranHarian();
-  if (rataRataHarian && pengeluaranHari > 0) {
-    const rasio = pengeluaranHari / rataRataHarian;
+  if (transaksi.length === 0) {
+    badgeEl.style.display = 'none';
+  } else {
     let label = 'Aman', cls = 'aman';
-    if (rasio >= 2) { label = 'Boros'; cls = 'boros'; }
-    else if (rasio >= 1.5) { label = 'Waspada'; cls = 'waspada'; }
+
+    const defisitBulanan = pemasukanBulan > 0 && pengeluaranBulan > pemasukanBulan;
+    const rataRataHarian = hitungRataRataPengeluaranHarian();
+    const rasioHarian = rataRataHarian ? pengeluaranHari / rataRataHarian : 0;
+
+    if (saldo < 0) {
+      label = 'Boros'; cls = 'boros';
+    } else if (defisitBulanan) {
+      label = 'Waspada'; cls = 'waspada';
+    }
+
+    // Rasio pengeluaran hari ini yang ekstrem bisa menaikkan level peringatan,
+    // tapi tidak pernah menurunkannya di bawah status saldo/defisit di atas.
+    if (rasioHarian >= 2 && cls !== 'boros') { label = 'Boros'; cls = 'boros'; }
+    else if (rasioHarian >= 1.5 && cls === 'aman') { label = 'Waspada'; cls = 'waspada'; }
+
     badgeEl.textContent = label;
     badgeEl.className = `status-badge ${cls}`;
     badgeEl.style.display = 'inline-block';
-  } else {
-    badgeEl.style.display = 'none';
   }
 
   // breakdown kategori
