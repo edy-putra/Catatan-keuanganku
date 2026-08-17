@@ -1,4 +1,4 @@
-const CACHE_NAME = 'catatan-keuangan-v6';
+const CACHE_NAME = 'catatan-keuangan-v7';
 const ASSET_LIST = [
   './',
   './index.html',
