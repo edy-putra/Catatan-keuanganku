@@ -139,7 +139,7 @@ body {
 }
 .status-badge.aman { background: rgba(255,255,255,0.16); color: #F4FBF9; }
 .status-badge.waspada { background: var(--gold); color: #2B2412; }
-.status-badge.boros { background: var(--danger); color: #fff; }
+.status-badge.boros { background: #E5484D; color: #fff; }
 
 /* ---------- Modal nasehat ---------- */
 
